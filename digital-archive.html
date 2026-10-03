@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Digital Archive — SERO.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:#0a0a08;color:#f2efe8;font-family:'Inter',sans-serif;font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px 48px;background:rgba(10,10,8,0.92);backdrop-filter:blur(16px);border-bottom:0.5px solid rgba(242,239,232,0.08);}
+  .nav-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;letter-spacing:0.04em;color:#f2efe8;text-decoration:none;display:flex;align-items:center;}
+  .nav-logo img{height:28px;width:auto;display:block;}
+  .nav-links{display:flex;gap:38px;list-style:none;}
+  .nav-links a{font-size:11px;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;color:rgba(242,239,232,0.55);text-decoration:none;transition:color 0.3s;}
+  .nav-links a:hover,.nav-links a.active{color:#f2efe8;}
+
+  /* MASTHEAD */
+  .masthead{padding:200px 48px 100px;text-align:center;max-width:880px;margin:0 auto;}
+  .eyebrow{font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:#8a8a86;margin-bottom:32px;}
+  .masthead h1{font-family:'Cormorant Garamond',serif;font-size:clamp(56px,9vw,112px);font-weight:300;line-height:0.95;letter-spacing:-0.02em;color:#f2efe8;margin-bottom:36px;}
+  .masthead h1 em{font-style:italic;}
+  .divider{width:44px;height:1px;background:#f2efe8;margin:0 auto 40px;}
+  .lede{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.4vw,26px);font-style:italic;font-weight:300;color:rgba(242,239,232,0.85);line-height:1.6;max-width:640px;margin:0 auto;}
+
+  /* TIMELINE */
+  .timeline{max-width:1200px;margin:0 auto;padding:60px 48px 120px;position:relative;}
+  .timeline::before{content:'';position:absolute;left:48px;top:0;bottom:0;width:0.5px;background:rgba(242,239,232,0.12);}
+
+  .entry{display:grid;grid-template-columns:auto 1fr 1.4fr;gap:48px;padding:48px 0;border-bottom:0.5px solid rgba(242,239,232,0.08);position:relative;align-items:start;opacity:0;transform:translateY(28px);transition:opacity 0.9s ease,transform 0.9s ease;}
+  .entry.visible{opacity:1;transform:translateY(0);}
+  .entry:last-of-type{border-bottom:none;}
+
+  .entry-marker{display:flex;flex-direction:column;align-items:center;width:0;position:relative;left:0;}
+  .entry-dot{width:9px;height:9px;border-radius:50%;background:#0a0a08;border:1px solid #f2efe8;margin-top:8px;position:relative;z-index:2;}
+  .entry.current .entry-dot{background:#f2efe8;box-shadow:0 0 0 4px rgba(242,239,232,0.15);}
+  .entry.upcoming .entry-dot{border-color:rgba(242,239,232,0.35);}
+
+  .entry-meta{padding-left:24px;}
+  .entry-number{font-family:'Cormorant Garamond',serif;font-size:48px;font-style:italic;font-weight:300;color:#f2efe8;line-height:1;margin-bottom:8px;}
+  .entry.upcoming .entry-number{color:rgba(242,239,232,0.3);}
+  .entry-date{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#8a8a86;margin-bottom:8px;}
+  .entry-status{font-size:9px;letter-spacing:0.24em;text-transform:uppercase;font-weight:500;padding:4px 10px;display:inline-block;}
+  .entry-status.live{background:#f2efe8;color:#0a0a08;}
+  .entry-status.past{border:0.5px solid rgba(242,239,232,0.25);color:#8a8a86;}
+  .entry-status.upcoming{border:0.5px dashed rgba(242,239,232,0.3);color:rgba(242,239,232,0.55);}
+
+  .entry-content{display:grid;grid-template-columns:1fr 1.2fr;gap:32px;align-items:start;}
+  .entry-image{background:#1c1c1a;aspect-ratio:4/5;overflow:hidden;}
+  .entry-image img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s ease;}
+  .entry:hover .entry-image img{transform:scale(1.03);}
+  .entry.upcoming .entry-image{background:#141412;display:flex;align-items:center;justify-content:center;}
+  .entry.upcoming .entry-image::after{content:'—';color:rgba(242,239,232,0.18);font-family:'Cormorant Garamond',serif;font-size:48px;font-style:italic;}
+  .entry-text{padding-top:4px;}
+  .entry-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3.4vw,42px);font-weight:300;font-style:italic;color:#f2efe8;line-height:1.05;margin-bottom:16px;letter-spacing:-0.01em;}
+  .entry.upcoming .entry-title{color:rgba(242,239,232,0.4);}
+  .entry-description{font-size:14px;line-height:1.85;color:#bcb9b2;font-weight:300;margin-bottom:28px;}
+  .entry.upcoming .entry-description{color:rgba(242,239,232,0.35);font-style:italic;}
+  .entry-cta{display:inline-flex;align-items:center;gap:10px;padding:12px 32px;border:0.5px solid #f2efe8;color:#f2efe8;font-size:10px;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;transition:all 0.3s;}
+  .entry-cta:hover{background:#f2efe8;color:#0a0a08;}
+  .entry-cta-disabled{display:inline-flex;align-items:center;gap:10px;padding:12px 32px;border:0.5px dashed rgba(242,239,232,0.2);color:rgba(242,239,232,0.35);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;font-style:italic;}
+
+  /* CLOSING NOTE */
+  .closing-note{padding:80px 48px 120px;text-align:center;border-top:0.5px solid rgba(242,239,232,0.06);max-width:680px;margin:0 auto;}
+  .closing-note p{font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:rgba(242,239,232,0.7);font-weight:300;line-height:1.7;margin-bottom:32px;}
+  .closing-cta{display:inline-flex;align-items:center;gap:12px;padding:15px 40px;border:0.5px solid #f2efe8;color:#f2efe8;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;transition:all 0.3s;}
+  .closing-cta:hover{background:#f2efe8;color:#0a0a08;}
+
+  footer{padding:64px 48px;border-top:0.5px solid rgba(242,239,232,0.12);display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:24px;background:#0a0a08;margin-top:auto;}
+  .footer-logo img{height:32px;width:auto;display:block;margin-bottom:10px;}
+  .footer-tagline{font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:#8a8a86;}
+  .footer-links{display:flex;gap:30px;list-style:none;}
+  .footer-links a{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#8a8a86;text-decoration:none;transition:color 0.3s;}
+  .footer-links a:hover{color:#f2efe8;}
+  .footer-copy{font-size:11px;color:#8a8a86;letter-spacing:0.06em;width:100%;padding-top:28px;margin-top:8px;border-top:0.5px solid rgba(242,239,232,0.06);text-align:center;}
+
+  @media(max-width:900px){
+    .entry{grid-template-columns:1fr;gap:24px;padding:48px 0;}
+    .entry-marker{display:none;}
+    .entry-content{grid-template-columns:1fr;gap:24px;}
+    .timeline::before{display:none;}
+  }
+  @media(max-width:768px){
+    nav{padding:16px 24px;}.nav-links{gap:18px;}.nav-links li:nth-child(n+4){display:none;}
+    .masthead{padding:160px 24px 60px;}
+    .timeline{padding:40px 24px 80px;}
+    .closing-note{padding:60px 24px 80px;}
+    footer{padding:40px 24px;flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo"><img src="assets/sero-wordmark-white.png" alt="SERO." /></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="this-month.html">This Month</a></li>
+    <li><a href="digital-archive.html" class="active">Archive</a></li>
+    <li><a href="submit.html">Submit</a></li>
+    <li><a href="support.html">Support</a></li>
+  </ul>
+</nav>
+
+<!-- MASTHEAD -->
+<section class="masthead">
+  <div class="eyebrow">Digital Archive — Vol. 01</div>
+  <h1>Every theme, <em>kept</em></h1>
+  <div class="divider"></div>
+  <p class="lede">A growing record of the work, words, and reflections that have passed through SERO. Each month, a new theme arrives. Each one is kept here, for as long as the platform exists.</p>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline">
+
+  <!-- Current theme: Welcoming Guest -->
+  <article class="entry current">
+    <div class="entry-marker"><div class="entry-dot"></div></div>
+    <div class="entry-meta">
+      <div class="entry-number">01</div>
+      <div class="entry-date">Opened 26 June 2026</div>
+      <div class="entry-status live">Live now</div>
+    </div>
+    <div class="entry-content">
+      <a href="this-month.html" class="entry-image"><img src="assets/guest-1-teapot.png" alt="Welcoming Guest" /></a>
+      <div class="entry-text">
+        <h2 class="entry-title">Welcoming <em>Guest</em></h2>
+        <p class="entry-description">Long before borders and labels, people understood this much: dignity comes first. Food, water, warmth — not as politeness, but as protection. The first monthly theme sits with the ancient instinct to make a stranger feel safe.</p>
+        <a href="this-month.html" class="entry-cta">Enter the theme</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- Upcoming placeholders — these get replaced as new themes go live -->
+  <article class="entry upcoming">
+    <div class="entry-marker"><div class="entry-dot"></div></div>
+    <div class="entry-meta">
+      <div class="entry-number">02</div>
+      <div class="entry-date">Coming soon</div>
+      <div class="entry-status upcoming">Upcoming</div>
+    </div>
+    <div class="entry-content">
+      <div class="entry-image"></div>
+      <div class="entry-text">
+        <h2 class="entry-title">The next <em>theme</em></h2>
+        <p class="entry-description">A new conversation, gathered each month. Subscribe to the curator's letter to be the first to know when the next theme arrives.</p>
+        <span class="entry-cta-disabled">To be revealed</span>
+      </div>
+    </div>
+  </article>
+
+  <article class="entry upcoming">
+    <div class="entry-marker"><div class="entry-dot"></div></div>
+    <div class="entry-meta">
+      <div class="entry-number">03</div>
+      <div class="entry-date">Coming soon</div>
+      <div class="entry-status upcoming">Upcoming</div>
+    </div>
+    <div class="entry-content">
+      <div class="entry-image"></div>
+      <div class="entry-text">
+        <h2 class="entry-title">And the <em>next</em></h2>
+        <p class="entry-description">Themes are released monthly. Each one becomes part of the archive — a quiet record of what we sat with together.</p>
+        <span class="entry-cta-disabled">To be revealed</span>
+      </div>
+    </div>
+  </article>
+
+</section>
+
+<!-- CLOSING -->
+<div class="closing-note">
+  <p>The archive grows with us. One theme at a time.</p>
+  <a href="this-month.html" class="closing-cta">See this month's theme</a>
+</div>
+
+<footer>
+  <div><div class="footer-logo"><img src="assets/sero-wordmark-white.png" alt="SERO." /></div><div class="footer-tagline">you are welcome here.</div></div>
+  <ul class="footer-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="this-month.html">This Month</a></li>
+    <li><a href="digital-archive.html">Archive</a></li>
+    <li><a href="support.html">Support</a></li>
+    <li><a href="https://instagram.com/sero_collective" target="_blank">Instagram</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 SERO. — A digital cultural house. All rights remain with their respective artists.</div>
+</footer>
+
+<script>
+  const entries=document.querySelectorAll('.entry');
+  const observer=new IntersectionObserver((es)=>{es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*120);observer.unobserve(e.target);}});},{threshold:0.15});
+  entries.forEach(e=>observer.observe(e));
+</script>
+
+</body>
+</html>

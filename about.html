@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About — SERO.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:#ffffff;color:#1a1a18;font-family:'Inter',sans-serif;font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.6;}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px 48px;background:rgba(10,10,8,0.92);backdrop-filter:blur(16px);border-bottom:0.5px solid rgba(242,239,232,0.08);}
+  .nav-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;letter-spacing:0.04em;color:#f2efe8;text-decoration:none;display:flex;align-items:center;}
+  .nav-logo img{height:28px;width:auto;display:block;}
+  .nav-links{display:flex;gap:38px;list-style:none;}
+  .nav-links a{font-size:11px;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;color:rgba(242,239,232,0.55);text-decoration:none;transition:color 0.3s;}
+  .nav-links a:hover,.nav-links a.active{color:#f2efe8;}
+
+  /* MASTHEAD — like the cover of a magazine issue */
+  .masthead{padding:220px 48px 120px;text-align:center;border-bottom:0.5px solid rgba(26,26,24,0.1);}
+  .issue-meta{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#888884;margin-bottom:32px;}
+  .masthead h1{font-family:'Cormorant Garamond',serif;font-size:clamp(56px,9vw,120px);font-weight:300;line-height:0.95;letter-spacing:-0.02em;color:#1a1a18;margin-bottom:36px;}
+  .masthead h1 em{font-style:italic;}
+  .masthead-sub{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.4vw,28px);font-style:italic;font-weight:300;color:#1a1a18;max-width:680px;margin:0 auto;line-height:1.55;}
+
+  /* EDITORIAL SECTIONS */
+  .essay{max-width:680px;margin:0 auto;padding:120px 48px;}
+  .essay-eyebrow{font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:#888884;margin-bottom:28px;text-align:center;}
+  .drop-cap{font-family:'Cormorant Garamond',serif;float:left;font-size:88px;line-height:0.85;padding:6px 14px 0 0;color:#1a1a18;font-weight:400;}
+  .essay p{font-size:17px;line-height:1.85;color:#2a2a26;margin-bottom:24px;font-weight:300;}
+  .essay p.lede{font-family:'Cormorant Garamond',serif;font-size:24px;font-style:italic;line-height:1.55;color:#1a1a18;margin-bottom:36px;font-weight:300;text-align:center;}
+  .essay h2{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;font-style:italic;color:#1a1a18;margin:48px 0 20px;letter-spacing:-0.01em;}
+  .essay-rule{width:44px;height:1px;background:#1a1a18;margin:48px auto;}
+
+  /* PULL QUOTE */
+  .pullquote{max-width:840px;margin:0 auto;padding:80px 48px;text-align:center;border-top:0.5px solid rgba(26,26,24,0.1);border-bottom:0.5px solid rgba(26,26,24,0.1);}
+  .pullquote blockquote{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,42px);font-weight:300;font-style:italic;line-height:1.35;color:#1a1a18;margin-bottom:24px;letter-spacing:-0.01em;}
+  .pullquote-attr{font-size:10px;letter-spacing:0.24em;text-transform:uppercase;color:#888884;}
+
+  /* THREE PILLARS — like a magazine spread */
+  .pillars{max-width:1200px;margin:0 auto;padding:120px 48px;}
+  .pillars-header{text-align:center;margin-bottom:80px;}
+  .pillars-header h2{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,5vw,56px);font-weight:300;line-height:1.1;color:#1a1a18;letter-spacing:-0.01em;margin-bottom:20px;}
+  .pillars-header h2 em{font-style:italic;}
+  .pillars-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:60px;}
+  .pillar{text-align:left;}
+  .pillar-num{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;font-style:italic;color:#1a1a18;line-height:1;margin-bottom:20px;display:block;}
+  .pillar h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;font-style:italic;color:#1a1a18;margin-bottom:14px;line-height:1.2;}
+  .pillar p{font-size:14px;line-height:1.85;color:#4a4a46;font-weight:300;}
+
+  /* DARK INTERLUDE — a quote from the founder */
+  .interlude{background:#0a0a08;color:#f2efe8;padding:140px 48px;text-align:center;}
+  .interlude-eyebrow{font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:#8a8a86;margin-bottom:36px;}
+  .interlude blockquote{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3.4vw,38px);font-weight:300;font-style:italic;line-height:1.55;color:#f2efe8;max-width:780px;margin:0 auto 32px;letter-spacing:-0.005em;}
+  .interlude-attr{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(242,239,232,0.6);}
+
+  /* CLOSING — invitation */
+  .closing{max-width:680px;margin:0 auto;padding:120px 48px;text-align:center;}
+  .closing-text{font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;font-weight:300;color:#1a1a18;line-height:1.7;margin-bottom:40px;}
+  .closing-cta{display:inline-flex;align-items:center;gap:12px;padding:16px 44px;border:0.5px solid #1a1a18;background:transparent;color:#1a1a18;font-size:11px;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;transition:all 0.3s;font-family:'Inter',sans-serif;}
+  .closing-cta:hover{background:#1a1a18;color:#ffffff;}
+
+  /* FOOTER */
+  footer{padding:64px 48px;border-top:0.5px solid rgba(242,239,232,0.12);display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:24px;background:#0a0a08;}
+  .footer-logo img{height:32px;width:auto;display:block;margin-bottom:10px;}
+  .footer-tagline{font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:#8a8a86;}
+  .footer-links{display:flex;gap:30px;list-style:none;}
+  .footer-links a{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#8a8a86;text-decoration:none;transition:color 0.3s;}
+  .footer-links a:hover{color:#f2efe8;}
+  .footer-copy{font-size:11px;color:#8a8a86;letter-spacing:0.06em;width:100%;padding-top:28px;margin-top:8px;border-top:0.5px solid rgba(242,239,232,0.06);text-align:center;}
+
+  @media(max-width:768px){
+    nav{padding:16px 24px;}.nav-links{gap:18px;}.nav-links li:nth-child(n+4){display:none;}
+    .masthead{padding:160px 24px 80px;}
+    .essay{padding:80px 24px;}
+    .pullquote{padding:60px 24px;}
+    .pillars{padding:80px 24px;}
+    .pillars-grid{grid-template-columns:1fr;gap:48px;}
+    .interlude{padding:80px 24px;}
+    .closing{padding:80px 24px;}
+    footer{padding:40px 24px;flex-direction:column;}
+    .drop-cap{font-size:64px;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo"><img src="assets/sero-wordmark-white.png" alt="SERO." /></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="this-month.html">This Month</a></li>
+    <li><a href="digital-archive.html">Archive</a></li>
+    <li><a href="submit.html">Submit</a></li>
+    <li><a href="support.html">Support</a></li>
+  </ul>
+</nav>
+
+<!-- MASTHEAD -->
+<section class="masthead">
+  <div class="issue-meta">About — Vol. 01</div>
+  <h1>A <em>quiet corner</em><br>of the internet</h1>
+  <p class="masthead-sub">SERO. is a digital cultural house. A space for shared humanity, made for the part of you that has gone quiet.</p>
+</section>
+
+<!-- ESSAY ONE -->
+<article class="essay">
+  <div class="essay-eyebrow">Our philosophy</div>
+  <p class="lede">We are all travellers. Passing through borrowed time. And every stranger we meet along the way is, already, one of our own.</p>
+  <p><span class="drop-cap">S</span>ERO. exists in the slow lane of the internet. Where the news cycle doesn't reach. Where the algorithm doesn't decide what matters. Where the loudest voice doesn't win.</p>
+  <p>Each month, we explore a single theme through art, photography, poetry, and the quiet voices of people from every walk of life. The work is curated, the writing is unhurried, and the conversation is real.</p>
+  <p>This is not a feed. It is not a platform. It is a room. And the door is open.</p>
+</article>
+
+<!-- PULL QUOTE -->
+<div class="pullquote">
+  <blockquote>"For the part of you that has gone quiet. For the creativity you set aside. For the moments you have been searching for somewhere to feel something true."</blockquote>
+  <div class="pullquote-attr">From the founder's letter</div>
+</div>
+
+<!-- ESSAY TWO -->
+<article class="essay">
+  <div class="essay-eyebrow">Why we exist</div>
+  <p><span class="drop-cap">W</span>e built SERO. because something was missing. A space where art was made by the people for the people. A space that didn't ask you to perform, or scroll, or buy. A space that simply asked you to feel.</p>
+  <p>In a world that grows more divided by the hour, we believe that art is the oldest language we share. That a photograph taken on a Tuesday morning in one country can move a stranger half a world away. That a poem written by hand carries more weight than a thousand headlines. That underneath every difference — every border, label, opinion — there is the same searching, hoping, grieving, loving human being.</p>
+  <p>SERO. is a reminder. Not an argument.</p>
+</article>
+
+<!-- THREE PILLARS -->
+<section class="pillars">
+  <div class="pillars-header">
+    <h2>Three things we <em>believe</em></h2>
+  </div>
+  <div class="pillars-grid">
+    <div class="pillar">
+      <span class="pillar-num">i.</span>
+      <h3>Creativity is not a talent.</h3>
+      <p>It is a language every person is born speaking. SERO. exists to invite that language back into your life — not as something to perform, but as something to participate in.</p>
+    </div>
+    <div class="pillar">
+      <span class="pillar-num">ii.</span>
+      <h3>Slowness is a kind of resistance.</h3>
+      <p>The world moves too fast to feel anything for long. SERO. is built for the people who want to sit with something — a piece of art, a stranger's story, a question — for longer than the algorithm allows.</p>
+    </div>
+    <div class="pillar">
+      <span class="pillar-num">iii.</span>
+      <h3>Difference is not the problem.</h3>
+      <p>The problem is the distance we build around our differences. Art collapses that distance. It reminds us — quietly, without argument — that we are all, simply, human.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DARK INTERLUDE -->
+<div class="interlude">
+  <div class="interlude-eyebrow">A note from the founder</div>
+  <blockquote>"I built SERO. because I needed it to exist. Because the world is loud, and division is easy, and I believe that art can do what argument cannot. If something here makes you feel even a little less alone — then we have done what we set out to do."</blockquote>
+  <div class="interlude-attr">— J, founder</div>
+</div>
+
+<!-- CLOSING -->
+<div class="closing">
+  <p class="closing-text">SERO. is independent, community-funded, and made with care.<br><br>You are welcome here.</p>
+  <a href="submit.html" class="closing-cta">Contribute your work</a>
+</div>
+
+<footer>
+  <div><div class="footer-logo"><img src="assets/sero-wordmark-white.png" alt="SERO." /></div><div class="footer-tagline">you are welcome here.</div></div>
+  <ul class="footer-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="this-month.html">This Month</a></li>
+    <li><a href="digital-archive.html">Archive</a></li>
+    <li><a href="submit.html">Submit</a></li>
+    <li><a href="https://instagram.com/sero_collective" target="_blank">Instagram</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 SERO. — A digital cultural house. All rights remain with their respective artists.</div>
+</footer>
+
+</body>
+</html>
